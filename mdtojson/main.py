@@ -1,7 +1,6 @@
 import json
 import os
-import re
-import utils
+
 
 dirname = os.path.dirname(__file__)
 
@@ -13,14 +12,7 @@ def main():
     #this makes a basic json object
     obj =  dict()
     atr = dict()
-    #obj["assessmentinstance"]  = dict
-    #atr["ASSESS_INSTANCE_ID"] =  "String (255)"
-    #obj["assessmentinstance"] = atr
-    #atr["ASSESS_INSTANCE_ID2"] =  "String (255)2"
-    #obj["assessmentinstance"] = atr
-    #j = json.dumps(obj)
-    #print(j)
-    #exit()
+
 
     mdfiles = os.path.join(dirname,"mdfiles")
     for filename in os.listdir(mdfiles):
@@ -52,16 +44,13 @@ def main():
                     obj[content[0]] = atr
                     f+=1
 
-                print(obj)
-
-                #j = json.dumps(obj)
+                ##write to json
                 filename = content[0] + ".json"
                 filepath = os.path.join(dirname,"mdfiles",filename)
                 with open(filepath, 'w') as outfile:
                     json.dump(obj, outfile)
-               #print re.search(r'[\n\r].*Object Name:\s*([^\n\r]*)', myfile.read()).group(1)
 
-    exit()
+
    
 
 if __name__ == '__main__':
