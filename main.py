@@ -2,7 +2,7 @@
 import pandas as pd
 import configparser
 import logging
-import os
+
 import configparser
 import fileinput
 

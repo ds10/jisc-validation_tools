@@ -1,35 +1,68 @@
 import json
 import os
-from collections import defaultdict
 import re
+import utils
 
 dirname = os.path.dirname(__file__)
 
+# This assumes that first line has name on with a # heading and first two ##headings are description and notes. Every entity must have a format
 
 
 def main():
+
+    #this makes a basic json object
+    obj =  dict()
+    atr = dict()
+    #obj["assessmentinstance"]  = dict
+    #atr["ASSESS_INSTANCE_ID"] =  "String (255)"
+    #obj["assessmentinstance"] = atr
+    #atr["ASSESS_INSTANCE_ID2"] =  "String (255)2"
+    #obj["assessmentinstance"] = atr
+    #j = json.dumps(obj)
+    #print(j)
+    #exit()
 
     mdfiles = os.path.join(dirname,"mdfiles")
     for filename in os.listdir(mdfiles):
         if filename.endswith('.md'): 
             with open(os.path.join(mdfiles, filename)) as f:
-                print("yes")
-                content = f.read()
-                #print(content)
-                #grab what you need fro regular expressions
-                print re.search(r'[\n\r].*Object Name:\s*([^\n\r]*)', myfile.read()).group(1)
+                #read all lines and strip out newline
+                content = f.readlines()
+                content = [x.strip() for x in content]
+                #the first line is the dictionary, minus the hash
+                content[0] = content[0][2:] 
+                obj[content[0]]  = dict()               
+
+                #find indices of titles
+                indicesofentities = [i for i, s in enumerate(content) if s.startswith('## ')]
+                indicesofentities = indicesofentities[2:]
+                indicesofformats = [i for i, s in enumerate(content) if s.startswith('### Format')]
+               
+
+                ##remove
+                for entity in indicesofentities:
+                    print(entity)
+                    content[entity] = content[entity][3:]
+
+                ##create structure
+                f = 0
+                for entity in indicesofentities:
+                    idx = indicesofformats[f] + 1
+                    atr[content[entity]] =  content[idx]
+                    obj[content[0]] = atr
+                    f+=1
+
+                print(obj)
+
+                #j = json.dumps(obj)
+                filename = content[0] + ".json"
+                filepath = os.path.join(dirname,"mdfiles",filename)
+                with open(filepath, 'w') as outfile:
+                    json.dump(obj, outfile)
+               #print re.search(r'[\n\r].*Object Name:\s*([^\n\r]*)', myfile.read()).group(1)
 
     exit()
-    json = []
-    entityname = {}
-
-    entityname = {'entityName': 'assessment_instance'}
-    json.append(entityname)
-    entityname = {'name': 'ASSESS_INSTANCE_ID', 'format': 'String (255)'}
-    json.append(entityname)
-
-    print (json)
-    json.dumps(json) 
+   
 
 if __name__ == '__main__':
    main()
