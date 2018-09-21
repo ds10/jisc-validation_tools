@@ -1,3 +1,5 @@
+Here is an example of what an md file looks like, the name has to be the top line, description and notes are OK
+
 # course
 * [COURSE_ID](#course_id) [1] **
 * [SUBJECT](#subject) [0..1]

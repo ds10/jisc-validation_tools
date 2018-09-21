@@ -22,6 +22,11 @@ def main():
                 content = f.readlines()
                 content = [x.strip() for x in content]
                 #the first line is the dictionary, minus the hash
+                prefixes = ('hello', 'bye')
+                for line in content[:]:
+                    if line.startswith(prefixes):
+                        list.remove(line)
+
                 content[0] = content[0][2:] 
                 obj[content[0]]  = dict()               
 
@@ -48,7 +53,9 @@ def main():
                 filename = content[0] + ".json"
                 filepath = os.path.join(dirname,"mdfiles",filename)
                 with open(filepath, 'w') as outfile:
-                    json.dump(obj, outfile)
+                    #json.dump(obj, outfile)
+                    json.dump(obj, outfile, indent=4, separators=(',', ': '), sort_keys=True)
+                    f.write('\n')
 
 
    
