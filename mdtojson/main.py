@@ -55,7 +55,7 @@ def main():
                 with open(filepath, 'w') as outfile:
                     #json.dump(obj, outfile)
                     json.dump(obj, outfile, indent=4, separators=(',', ': '), sort_keys=True)
-                    f.write('\n')
+                    outfile.write('\n')
 
 
    
